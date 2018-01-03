@@ -15,4 +15,9 @@ import lombok.NoArgsConstructor;
     private Integer status;
     private Integer sourceStatus;
     private String mark;
+
+    public MessageDeliverDto(String consumerName,String mqMessageSourceId,Integer status,Integer sourceStatus){
+        setConsumerName(consumerName); setMqMessageSourceId(mqMessageSourceId);
+        setStatus(status); setSourceStatus(sourceStatus);
+    }
 }

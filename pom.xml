@@ -33,6 +33,7 @@
         <httpasyncclient.version>4.1.3</httpasyncclient.version>
         <mybatis-spring-boot-starter.version>1.3.1</mybatis-spring-boot-starter.version>
         <spring-cloud-starter-eureka.version>1.3.1.RELEASE</spring-cloud-starter-eureka.version>
+        <logcenter-sdk.version>1.0.2</logcenter-sdk.version>
     </properties>
 
     <dependencyManagement>
@@ -84,6 +85,12 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons-lang3.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.xianjinxia</groupId>
+                <artifactId>logcenter-sdk</artifactId>
+                <version>${logcenter-sdk.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
  * @date 2017/12/21
  */
 @Slf4j
-public class HtppUtil {
+public class HttpUtil {
     private static final int SOCKE_TIME_OUT = 20000;
     private static final int CONNECT_REQUEST_TIME_OUT = 180000;
     private static final int CONNECT_TIME_OUT = 20000;
@@ -47,9 +47,8 @@ public class HtppUtil {
 
     private static CloseableHttpAsyncClient initClientAndConnectionManager() {
         IOReactorConfig ioReactorConfig = IOReactorConfig.custom().setIoThreadCount(Runtime.getRuntime().availableProcessors()).build();
-        DefaultConnectingIOReactor ioReactor = null;
         try {
-            ioReactor = new DefaultConnectingIOReactor(ioReactorConfig);
+            DefaultConnectingIOReactor ioReactor = new DefaultConnectingIOReactor(ioReactorConfig);
             PoolingNHttpClientConnectionManager httpConnectionManager = new PoolingNHttpClientConnectionManager(ioReactor);
             httpConnectionManager.setMaxTotal(2000);
             httpConnectionManager.setDefaultMaxPerRoute(500);
@@ -80,18 +79,10 @@ public class HtppUtil {
         httpClient.start();
         HttpPost httpPost = new HttpPost(url);
         httpPost.addHeader("Content-Type", FORM_CONTENT_TYPE);
-        ArrayList formParams = new ArrayList();
-        if(params != null && params.size() != 0) {
-            Iterator uefEntity = params.entrySet().iterator();
 
-            while(uefEntity.hasNext()) {
-                Map.Entry value = (Map.Entry)uefEntity.next();
-                formParams.add(new BasicNameValuePair((String)value.getKey(), (String)value.getValue()));
-            }
-
-            UrlEncodedFormEntity uefEntity1 = new UrlEncodedFormEntity(formParams, charset);
-            httpPost.setEntity(uefEntity1);
-        }
+        List<BasicNameValuePair> valuePairs = params.entrySet().stream().map(entry -> new BasicNameValuePair(entry.getKey(), entry.getValue())).collect(Collectors.toList());
+        UrlEncodedFormEntity uefEntity1 = new UrlEncodedFormEntity(valuePairs, charset);
+        httpPost.setEntity(uefEntity1);
 
         log.debug("send async post request,url:{}", url);
         httpClient.execute(httpPost, callback);
@@ -104,7 +95,7 @@ public class HtppUtil {
         httpClient.start();
         HttpPost httpPost = new HttpPost(url);
         httpPost.addHeader("Content-Type", JSON_CONTENT_TYPE);
-        if(StringUtils.isNoneBlank(new CharSequence[]{rawParam})) {
+        if(StringUtils.isNoneBlank(rawParam)) {
             StringEntity entity = new StringEntity(rawParam, charset);
             entity.setContentEncoding(charset);
             entity.setContentType(JSON_CONTENT_TYPE);
@@ -153,11 +144,5 @@ public class HtppUtil {
                 log.error("close client error ", var2);
             }
         }
-    }
-
-    public static void main(String[] args) {
-        Map<String,String> map = new HashMap<String,String>(){{put("1","a");put("2","b");}};
-
-        System.out.println(Joiner.on(",").withKeyValueSeparator("=").join(map));
     }
 }

@@ -1,15 +1,23 @@
 package org.vision.github.springboot.mqserver.http.asynccallback;
 
-import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
 import org.vision.github.springboot.mqserver.dto.HttpRequestData;
+import org.vision.github.springboot.mqserver.service.MessageDeliverService;
+import org.vision.github.springboot.mqserver.util.SpringUtil;
 
 /**
  * @author ganminghui
  * @date 2017/12/20
  */
-@Slf4j public class HttpAsyncCallback extends BaseHttpCallback {
+public class HttpAsyncCallback extends BaseHttpCallback {
     private HttpRequestData httpRequestData;
+
+    private MessageDeliverService messageDeliverService;
+
+    public HttpAsyncCallback(HttpRequestData httpRequestData){
+        this.httpRequestData = httpRequestData;
+        this.messageDeliverService = SpringUtil.getBean(MessageDeliverService.class);
+    }
 
     @Override protected void internalComplete(HttpResponse response) {
 

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.vision.github.springboot.mqserver.dao.MessageDao">
+
+    <resultMap id="rtnMap" type="org.vision.github.springboot.mqserver.pojo.Message">
+        <id column="id" property="id"/>
+        <result property="messageSourceId" column="message_source_id"/>
+        <result property="queueName" column="queue_name"/>
+        <result property="mqMessage" column="mq_message"/>
+        <result property="consumerTime" column="consumer_time"/>
+    </resultMap>
+
+    <insert id="addMqMessage">
+        insert into tb_mq_message(queue_name,message_source_id,mq_message,consumer_time)
+        values(#{queueName,jdbcType=VARCHAR},#{messageSourceId,jdbcType=VARCHAR},#{mqMessage,jdbcType=VARCHAR},#{consumerTime,jdbcType=TIMESTAMP})
+    </insert>
+
+    <select id="getIdByMessageId" resultType="java.lang.Integer">
+        select id
+        from tb_mq_message
+        where message_source_id=#{messageSourceId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="getByMessageSourceId" resultMap="rtnMap">
+        select id, queue_name, message_source_id, mq_message, consumer_time
+        from tb_mq_message
+        where message_source_id=#{messageSourceId,jdbcType=VARCHAR}
+    </select>
+
+</mapper>

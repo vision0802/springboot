@@ -5,6 +5,8 @@ import org.vision.github.springboot.mqserver.config.ExtConfiguration;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Objects;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,7 +25,7 @@ public class AppUtil {
 
     public static synchronized void init() {
         if(!isInit){
-            InetAddress localHost = null;
+            InetAddress localHost;
             try {
                 localHost = InetAddress.getLocalHost();
             } catch (UnknownHostException e) {
@@ -39,5 +41,16 @@ public class AppUtil {
         Matcher matcher = compile.matcher(url);
         if (matcher.matches()) { return matcher.group(2); }
         throw new RuntimeException("can't get eureka service name,url:" + url);
+    }
+
+    private static final Integer RETRY_TIMES = 3;
+
+    public static <T> void retryThreeTimes(T t, Predicate<T> predicate, Consumer<T> finalConsumer){
+        int i =0;
+        while (i < RETRY_TIMES){
+            if(predicate.test(t)){ break; }
+            else { ++ i; }
+        }
+        if(i==RETRY_TIMES){ finalConsumer.accept(t); }
     }
 }

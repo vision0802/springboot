@@ -1,5 +1,6 @@
 package org.vision.github.springboot.mqserver.pojo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.Date;
@@ -14,4 +15,9 @@ import java.util.Date;
     private String messageSourceId;
     private String mqMessage;
     private Date consumerTime;
+
+    public Message(String queueName,String messageSourceId,String mqMessage,Date consumerTime){
+        setQueueName(queueName); setMessageSourceId(messageSourceId);
+        setMqMessage(mqMessage); setConsumerTime(consumerTime);
+    }
 }
