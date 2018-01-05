@@ -1,6 +1,7 @@
 package org.vision.github.springboot.mqserver.util;
 
 import com.google.common.base.Joiner;
+import com.google.gson.GsonBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpResponse;
@@ -21,6 +22,7 @@ import org.apache.http.nio.reactor.IOReactorException;
 import org.apache.http.util.EntityUtils;
 import org.springframework.util.CollectionUtils;
 import org.vision.github.springboot.mqserver.config.HttpRequestCount;
+import org.vision.github.springboot.mqserver.dto.ResultMsg;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -133,6 +135,15 @@ public class HttpUtil {
 
     public static String getResponseStr(HttpResponse response) throws IOException {
         return EntityUtils.toString(response.getEntity());
+    }
+
+    public static ResultMsg getResultMsg(HttpResponse response) {
+        try {
+            return Optional.ofNullable(new GsonBuilder().create().fromJson(getResponseStr(response), ResultMsg.class))
+                           .orElse(new ResultMsg("-1", "http response body is illegal"));
+        } catch (IOException e) {
+            return new ResultMsg("-1", "http response body is illegal");
+        }
     }
 
     private void closeClient() {

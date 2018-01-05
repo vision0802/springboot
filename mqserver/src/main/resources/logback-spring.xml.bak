@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration scan="true">
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <!--<springProperty scope="context" name="fluentHost" source="myapp.fluentd.host"/>-->
+    <!--<springProperty scope="context" name="loghome" source="logging.home"/>-->
+    <!--<springProperty scope="context" name="loglevel" source="logging.level"/>-->
+
+<!-- The FILE and ASYNC appenders are here as examples for a production configuration -->
+<!---->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>@logback.root.path@apigateway-log.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>14</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <charset>utf-8</charset>
+            <Pattern>%d %-5level [%thread] %logger{0}: %msg%n</Pattern>
+        </encoder>
+
+    </appender>
+     <appender name="logcenter" class="com.xianjinxia.logcenter.log.logback.CatLogbackAppender"/>
+
+    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+        <resetJUL>true</resetJUL>
+    </contextListener>
+
+    <springProfile name="dev">
+        <root level="@logback.loglevel@">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="FILE"/>
+            <appender-ref ref="logcenter"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="local">
+        <root level="@logback.loglevel@">
+             <appender-ref ref="CONSOLE"/>
+             <appender-ref ref="logcenter"/>
+          </root>
+    </springProfile>
+
+    <springProfile name="prod">
+
+        <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+            <queueSize>512</queueSize>
+            <appender-ref ref="FILE"/>
+        </appender>
+
+        <root level="@logback.loglevel@">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="ASYNC"/>
+             <appender-ref ref="logcenter"/>
+             <appender-ref ref="FILE"/>
+         </root>
+    </springProfile>
+
+</configuration>
