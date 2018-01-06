@@ -6,6 +6,7 @@ import java.util.Map;
 /**
  * @author ganminghui
  * @date 2018/1/5
+ * @see <a href="http://blog.csdn.net/li396864285/article/details/54668031"/>
  */
 public class SnowFlakeFactory {
     private static final long TWEPOCH = 1288834974657L;
