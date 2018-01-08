@@ -1,4 +1,4 @@
-package org.vision.github.springboot.tools.currentlimiter;
+package org.vision.github.springboot.tools.currentlimiter.backup;
 
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.vision.github.springboot.tools.time.TimeTool;
@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
  * @author ganminghui
  * @date 2018/1/7
  */
-public class TokenBucket {
+@Deprecated public class TokenBucket {
     private static final ScheduledThreadPoolExecutor POOL = new ScheduledThreadPoolExecutor(1,new BasicThreadFactory.Builder().namingPattern("scheduled-%d").build());
 
     private static final Integer COUNT_THRESHOLD = 1000;

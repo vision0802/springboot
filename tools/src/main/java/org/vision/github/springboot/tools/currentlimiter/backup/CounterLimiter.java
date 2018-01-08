@@ -1,4 +1,4 @@
-package org.vision.github.springboot.tools.currentlimiter;
+package org.vision.github.springboot.tools.currentlimiter.backup;
 
 import org.vision.github.springboot.tools.time.TimeTool;
 
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  * @author ganminghui
  * @date 2018/1/7
  */
-public class CounterLimiter {
+@Deprecated public class CounterLimiter {
     /** 计数阀值 */
     private static final Integer COUNT_THRESHOLD = 50;
 
