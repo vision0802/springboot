@@ -1,7 +1,7 @@
 package org.vision.github.springboot.tools.currentlimiter.backup;
 
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
-import org.vision.github.springboot.tools.time.TimeTool;
+import org.vision.github.springboot.tools.common.DateTool;
 
 import java.util.Objects;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit;
         @Override public void run() {
             BUCKET_QUEUE.clear();
             while (BUCKET_QUEUE.size()<COUNT_THRESHOLD){
-                BUCKET_QUEUE.offer(TimeTool.getCurrentMillis());
+                BUCKET_QUEUE.offer(DateTool.getCurrentMillis());
             }
         }
     }

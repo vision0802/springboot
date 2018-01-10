@@ -2,7 +2,7 @@ package org.vision.github.springboot.tools.currentlimiter;
 
 import org.junit.Test;
 import org.vision.github.springboot.tools.currentlimiter.backup.TokenBucket;
-import org.vision.github.springboot.tools.time.TimeTool;
+import org.vision.github.springboot.tools.common.DateTool;
 
 /**
  * @author ganminghui
@@ -11,8 +11,8 @@ import org.vision.github.springboot.tools.time.TimeTool;
 public class TokenBucketTest {
     @Test
     public void testGetTokenBucket() throws Exception {
-        long currSecond = TimeTool.getCurrentSenconds();
-        while (TimeTool.getCurrentSenconds() < currSecond + 6) {
+        long currSecond = DateTool.getCurrentSenconds();
+        while (DateTool.getCurrentSenconds() < currSecond + 6) {
             TokenBucket.getTokenBucket();
         }
     }

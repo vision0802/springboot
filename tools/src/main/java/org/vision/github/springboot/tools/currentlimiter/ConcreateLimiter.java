@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
-import org.vision.github.springboot.tools.time.TimeTool;
+import org.vision.github.springboot.tools.common.DateTool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +57,7 @@ public class ConcreateLimiter {
             public boolean validate(int beforeIndex){
                 /** 当前计数器大于0且清零时间不为上一秒时,当前计数器清零 */
                 if(number > 0 && clearSecond > 0 && getIndexClearSecond() != beforeIndex){
-                    clearSecond(TimeTool.getCurrentSenconds(),0);
+                    clearSecond(DateTool.getCurrentSenconds(),0);
                 }
                 if(number<threshold){
                     increment();
@@ -91,7 +91,7 @@ public class ConcreateLimiter {
         }
 
         @Override public boolean currentLimited() {
-            long currSeconds = TimeTool.getCurrentSenconds();
+            long currSeconds = DateTool.getCurrentSenconds();
             int currIndex = (int)currSeconds % COUNTER_ARR.length;
 
             COUNTER_ARR[getAfterIndex(currIndex)].get().clearSecond(currSeconds,0);
@@ -136,7 +136,7 @@ public class ConcreateLimiter {
             @Override public void run() {
                 bucketQueue.clear();
                 while (bucketQueue.size()<threshold){
-                    bucketQueue.offer(TimeTool.getCurrentMillis());
+                    bucketQueue.offer(DateTool.getCurrentMillis());
                 }
             }
         }
@@ -161,14 +161,14 @@ public class ConcreateLimiter {
         /** 计数阀值 */
         private static final Integer COUNT_THRESHOLD = 50;
 
-        private static volatile long clearMillis = TimeTool.getCurrentSenconds();
+        private static volatile long clearMillis = DateTool.getCurrentSenconds();
 
         /** 5个原始变量,用来计数每5秒的请求数量 */
         private static final AtomicLong[] COUNT_ARR = new AtomicLong[]{ new AtomicLong(0L),new AtomicLong(0L), new AtomicLong(0L),new AtomicLong(0L),new AtomicLong(0L)};
 
         private static void clearSecondCount(AtomicLong secondCount){
             secondCount.set(0);
-            clearMillis = TimeTool.getCurrentSenconds();
+            clearMillis = DateTool.getCurrentSenconds();
         }
 
         /** 打印当前以及前3s的访问量 */
@@ -186,7 +186,7 @@ public class ConcreateLimiter {
 
         /** 获取当前秒对应的计数器索引 */
         private static int getIndex(){
-            return (int) TimeTool.getCurrentSenconds()%COUNT_ARR.length;
+            return (int) DateTool.getCurrentSenconds()%COUNT_ARR.length;
         }
 
         /** 获取前一秒对应的计数器 */

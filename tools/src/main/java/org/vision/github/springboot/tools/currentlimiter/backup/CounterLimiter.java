@@ -1,6 +1,6 @@
 package org.vision.github.springboot.tools.currentlimiter.backup;
 
-import org.vision.github.springboot.tools.time.TimeTool;
+import org.vision.github.springboot.tools.common.DateTool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,14 +19,14 @@ import java.util.stream.Collectors;
     /** 计数阀值 */
     private static final Integer COUNT_THRESHOLD = 50;
 
-    private static volatile long clearMillis = TimeTool.getCurrentSenconds();
+    private static volatile long clearMillis = DateTool.getCurrentSenconds();
 
     /** 5个原始变量,用来计数每5秒的请求数量 */
     private static final AtomicLong[] COUNT_ARR = new AtomicLong[]{ new AtomicLong(0L),new AtomicLong(0L), new AtomicLong(0L),new AtomicLong(0L),new AtomicLong(0L)};
 
     private static void clearSecondCount(AtomicLong secondCount){
         secondCount.set(0);
-        clearMillis = TimeTool.getCurrentSenconds();
+        clearMillis = DateTool.getCurrentSenconds();
     }
 
     public static boolean countLimit(){
@@ -59,7 +59,7 @@ import java.util.stream.Collectors;
 
     /** 获取当前秒对应的计数器索引 */
     private static int getIndex(){
-        return (int) TimeTool.getCurrentSenconds()%COUNT_ARR.length;
+        return (int) DateTool.getCurrentSenconds()%COUNT_ARR.length;
     }
 
     /** 获取前一秒对应的计数器 */

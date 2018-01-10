@@ -1,7 +1,7 @@
 package org.vision.github.springboot.tools.currentlimiter;
 
 import org.junit.Test;
-import org.vision.github.springboot.tools.time.TimeTool;
+import org.vision.github.springboot.tools.common.DateTool;
 
 import java.util.concurrent.TimeUnit;
 
@@ -13,10 +13,10 @@ public class CurrLimiterServiceTest {
 
     @Test public void testGetCurrLimiter() throws InterruptedException {
         ICurrLimiter currLimiter = new CurrLimiterService(2).getCurrLimiter();
-        long currSecond = TimeTool.getCurrentSenconds();
+        long currSecond = DateTool.getCurrentSenconds();
 
         Thread t1 = new Thread(()->{
-            while (TimeTool.getCurrentSenconds() < currSecond + 8){
+            while (DateTool.getCurrentSenconds() < currSecond + 8){
                 currLimiter.currentLimited();
                 try {
                     TimeUnit.SECONDS.sleep(1);
@@ -27,7 +27,7 @@ public class CurrLimiterServiceTest {
         });
 
         Thread t2 = new Thread(()->{
-            while (TimeTool.getCurrentSenconds() < currSecond + 6){
+            while (DateTool.getCurrentSenconds() < currSecond + 6){
                 currLimiter.currentLimited();
                 try {
                     TimeUnit.SECONDS.sleep(1);
@@ -42,7 +42,7 @@ public class CurrLimiterServiceTest {
 
         t1.join();
         t2.join();
-        /*while (TimeTool.getCurrentSenconds() < currSecond + 6) {
+        /*while (DateTool.getCurrentSenconds() < currSecond + 6) {
             currLimiter.currentLimited();
         }*/
     }

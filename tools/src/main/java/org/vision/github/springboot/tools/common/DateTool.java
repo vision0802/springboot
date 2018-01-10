@@ -1,4 +1,4 @@
-package org.vision.github.springboot.tools.time;
+package org.vision.github.springboot.tools.common;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,7 +12,7 @@ import java.util.Optional;
  * @author ganminghui
  * @date 2018/1/7
  */
-public class TimeTool {
+public class DateTool {
     private static final String ZONE_CHINA = "Asia/Shanghai";
     private static final String PARRTEN_MILLI = "yyyy-MM-dd HH:mm:ss.SSS";
     private static final String PARRTEN_SECOND = "yyyy-MM-dd HH:mm:ss";
