@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.vision.github.springboot.mqserver.dao.MessageListenerDao">
+
+    <resultMap id="rtnMap" type="org.vision.github.springboot.mqserver.pojo.MessageListener">
+        <id column="id" property="id"/>
+        <result property="queueName" column="queue_name"/>
+        <result property="serverName" column="server_name"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="last_update_time"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <insert id="addMqListener">
+        insert into tb_mq_listener(queue_name,server_name,create_time,status)
+        values(#{queueName,jdbcType=VARCHAR,},#{serverName,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{status,jdbcType=VARCHAR})
+    </insert>
+
+    <update id="updateStatusById">
+        update tb_mq_listener
+        set status=#{status,jdbcType=INTEGER}
+        where id=#{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="getByStatusAndServerName" resultMap="rtnMap">
+        select id,queue_name
+        from tb_mq_listener
+        where status=#{status,jdbcType=INTEGER}
+        and server_name=#{serverName,jdbcType=VARCHAR}
+    </select>
+
+
+</mapper>
+
+
+

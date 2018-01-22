@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: mqserver
+  profiles:
+    active: @spring.profile@
+  mvc:
+    favicon:
+      enabled: false
+
+server:
+  context-path: /mqserver
+  port: 8080
+
+
+mybatis:
+  config-location: classpath*:mapper/*.xml

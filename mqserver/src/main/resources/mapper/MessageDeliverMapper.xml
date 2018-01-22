@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.vision.github.springboot.mqserver.dao.MessageDeliverDao">
+
+    <resultMap id="rtnMap" type="org.vision.github.springboot.mqserver.pojo.MessageDeliver">
+        <id column="id" property="id"/>
+        <result property="mqMessageSourceId" column="mq_message_source_id"/>
+        <result property="consumerName" column="consumer_name"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="last_update_time"/>
+        <result property="nextExecuteTime" column="next_execute_time"/>
+        <result property="retryTimes" column="retry_times"/>
+        <result property="hasTryTimes" column="has_try_times"/>
+        <result property="mark" column="mark"/>
+        <result property="status" column="status"/>
+        <result property="version" column="version"/>
+    </resultMap>
+
+    <insert id="addMessageDeliver">
+        insert into tb_message_deliver(mq_message_source_id,consumer_name,next_execute_time,retry_times,has_try_times,status,version)
+        values(#{mqMessageSourceId,jdbcType=VARCHAR},#{consumerName,jdbcType=VARCHAR},#{nextExecuteTime,jdbcType=TIMESTAMP},#{retryTimes,jdbcType=INTEGER},#{hasTryTimes,jdbcType=INTEGER},#{status,jdbcType=INTEGER},#{version,jdbcType=INTEGER})
+    </insert>
+
+    <update id="updateStatus">
+        update tb_message_deliver
+        set status=#{status,jdbcType=INTEGER}
+        where mq_message_source_id=#{mqMessageSourceId,jdbcType=VARCHAR}
+        and consumer_name=#{consumerName,jdbcType=VARCHAR}
+        and status=#{sourceStatus,jdbcType=INTEGER}
+    </update>
+    
+    <update id="updateStatusAndMark">
+        update tb_message_deliver 
+        set status=#{status,jdbcType=INTEGER},mark=#{mark,jdbcType=VARCHAR} 
+        where mq_message_source_id=#{mqMessageSourceId,jdbcType=VARCHAR} 
+        and consumer_name=#{consumerName,jdbcType=VARCHAR} 
+        and status=#{sourceStatus,jdbcType=INTEGER} 
+    </update>
+
+    <update id="updateVersionAndNextExecuteTime">
+        update tb_message_deliver
+        set next_execute_time=#{nextExecuteTime,jdbcType=TIMESTAMP},version=version+1,has_try_times=has_try_times+1
+        where mq_message_source_id=#{mqMessageSourceId,jdbcType=VARCHAR}
+        and consumer_name=#{consumerName,jdbcType=VARCHAR}
+        and version=#{version,jdbcType=INTEGER}
+    </update>
+
+    <select id="getByStatusAndLimit" resultMap="rtnMap">
+        select id,consumer_name,mq_message_source_id,next_execute_time,last_update_time,retry_times,has_try_times,status,version
+        from tb_message_deliver
+        where status=#{status,jdbcType=INTEGER}
+        and has_try_times &lt; retry_times and next_execute_time &lt;= now()
+        order by create_time
+        limit 0,#{maxSize,jdbcType=INTEGER}
+    </select>
+
+</mapper>

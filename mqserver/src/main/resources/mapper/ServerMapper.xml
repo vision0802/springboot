@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.vision.github.springboot.mqserver.dao.ServerDao">
+
+    <resultMap id="rtnMap" type="org.vision.github.springboot.mqserver.pojo.Server">
+        <id column="id" property="id"/>
+        <result property="serverName" column="server_name"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <insert id="addServer">
+        insert into tb_server_list(server_name,create_time)
+        values(#{serverName,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP})
+    </insert>
+
+    <select id="countByServerName" resultType="java.lang.Integer">
+        select count(0)
+        from tb_server_list
+        where server_name=#{serverName,jdbcType=VARCHAR}
+    </select>
+
+    <select id="getAllServerName" resultType="java.lang.String">
+        select server_name from tb_server_list
+    </select>
+
+</mapper>
