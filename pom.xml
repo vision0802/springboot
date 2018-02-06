@@ -11,6 +11,7 @@
         <module>mqserver</module>
         <module>mqclient</module>
         <module>tools</module>
+        <module>other</module>
     </modules>
 
     <name>parent</name>

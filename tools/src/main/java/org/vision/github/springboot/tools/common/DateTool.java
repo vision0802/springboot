@@ -21,7 +21,7 @@ public class DateTool {
     public static long getCurrentMillis(){ return System.currentTimeMillis(); }
 
     /** 获取当前时间秒数 */
-    public static long getCurrentSenconds(){ return getCurrentMillis()/1000; }
+    public static long getCurrentSeconds(){ return getCurrentMillis()/1000; }
 
     /** 指定时间格式获取当前时间字符串 */
     public static String getTimeNow(String pattern){
