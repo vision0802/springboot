@@ -13,10 +13,10 @@ public class CurrLimiterServiceTest {
 
     @Test public void testGetCurrLimiter() throws InterruptedException {
         ICurrLimiter currLimiter = new CurrLimiterService(2).getCurrLimiter();
-        long currSecond = DateTool.getCurrentSenconds();
+        long currSecond = DateTool.getCurrentSeconds();
 
         Thread t1 = new Thread(()->{
-            while (DateTool.getCurrentSenconds() < currSecond + 8){
+            while (DateTool.getCurrentSeconds() < currSecond + 8){
                 currLimiter.currentLimited();
                 try {
                     TimeUnit.SECONDS.sleep(1);
@@ -27,7 +27,7 @@ public class CurrLimiterServiceTest {
         });
 
         Thread t2 = new Thread(()->{
-            while (DateTool.getCurrentSenconds() < currSecond + 6){
+            while (DateTool.getCurrentSeconds() < currSecond + 6){
                 currLimiter.currentLimited();
                 try {
                     TimeUnit.SECONDS.sleep(1);

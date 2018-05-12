@@ -11,8 +11,8 @@ import org.vision.github.springboot.tools.common.DateTool;
 public class TokenBucketTest {
     @Test
     public void testGetTokenBucket() throws Exception {
-        long currSecond = DateTool.getCurrentSenconds();
-        while (DateTool.getCurrentSenconds() < currSecond + 6) {
+        long currSecond = DateTool.getCurrentSeconds();
+        while (DateTool.getCurrentSeconds() < currSecond + 6) {
             TokenBucket.getTokenBucket();
         }
     }

@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
         public boolean validate(int beforeIndex){
             /** 当前计数器大于0且清零时间不为上一秒时,当前计数器清零 */
             if(number > 0 && clearSecond > 0 && getIndexClearSecond() != beforeIndex){
-                clearSecond(DateTool.getCurrentSenconds(),0);
+                clearSecond(DateTool.getCurrentSeconds(),0);
             }
             if(number<COUNT_THRESHOLD){
                 increment();
@@ -75,7 +75,7 @@ import java.util.stream.Collectors;
     }
 
     public static boolean countLimited(){
-        long currSeconds = DateTool.getCurrentSenconds();
+        long currSeconds = DateTool.getCurrentSeconds();
         int currIndex = (int)currSeconds % COUNTER_ARR.length;
 
         COUNTER_ARR[getAfterIndex(currIndex)].get().clearSecond(currSeconds,0);

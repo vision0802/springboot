@@ -103,4 +103,22 @@ public class SnowFlakeFactoryTest {
         Map<String,Long> rtnMap = SnowFlakeFactory.converId(id);
         rtnMap.forEach((key,value)-> System.out.println(key+": " +value));
     }
+
+    @Test public void testFinal(){
+        System.out.println(doFinally());
+    }
+
+    private String doFinally(){
+        System.out.println("*******start********");
+        try{
+            System.out.println("*******try********");
+            throw new NullPointerException();
+        }catch (Exception e){
+            System.out.println("*******catch********");
+            throw e;
+        }finally {
+            System.out.println("*******finally********");
+            return "finally";
+        }
+    }
 }

@@ -11,8 +11,8 @@ import org.vision.github.springboot.tools.common.DateTool;
 public class CounterLimiterV2Test {
 
     @Test public void testCountLimited() throws Exception {
-        long currSecond = DateTool.getCurrentSenconds();
-        while (DateTool.getCurrentSenconds() < currSecond + 6) {
+        long currSecond = DateTool.getCurrentSeconds();
+        while (DateTool.getCurrentSeconds() < currSecond + 6) {
             CounterLimiterV2.countLimited();
         }
     }
